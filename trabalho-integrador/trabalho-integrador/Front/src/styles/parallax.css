@@ -51,11 +51,3 @@
     padding-top: 10rem;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-parallax-bg {
-    top: 0;
-    height: 100%;
-    transform: none !important;
-  }
-}

@@ -108,6 +108,39 @@ test('CSS do parallax carrega a imagem servida pelo frontend', async () => {
     assert.match(imageResponse.headers.get('content-type'), /^image\/jpeg/);
 });
 
+test('parallax continua ativo com preferência por movimento reduzido', () => {
+    const parallaxScript = fs.readFileSync(
+        path.resolve(__dirname, '../../Front/src/scripts/parallax.js'),
+        'utf8'
+    );
+    let domReady;
+    const heroSection = {
+        offsetHeight: 400,
+        offsetTop: 0,
+        getBoundingClientRect: () => ({ bottom: 400, top: 0 })
+    };
+    const parallaxBg = { style: {} };
+
+    vm.runInNewContext(parallaxScript, {
+        document: {
+            addEventListener: (event, callback) => {
+                if (event === 'DOMContentLoaded') domReady = callback;
+            },
+            getElementById: (id) => id === 'inicio' ? heroSection : parallaxBg
+        },
+        window: {
+            innerHeight: 800,
+            matchMedia: () => ({ matches: true }),
+            requestAnimationFrame: (callback) => callback(),
+            scrollY: 100,
+            addEventListener: () => {}
+        }
+    });
+
+    domReady();
+    assert.equal(parallaxBg.style.transform, 'translate3d(0, 30.00px, 0)');
+});
+
 // Confirma que os scripts do frontend estao disponiveis junto com a API.
 test('GET /src/scripts/store.js entrega o script da loja', async () => {
     const response = await fetch(`${baseUrl}/src/scripts/store.js`);

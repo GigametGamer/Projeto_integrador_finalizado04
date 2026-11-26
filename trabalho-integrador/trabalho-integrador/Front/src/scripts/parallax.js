@@ -4,9 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!heroSection || !parallaxBg) return;
 
-  // Respeita a preferência do sistema por redução de movimento
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
   const velocidade = 0.30;
   const margemSeguranca = 0.35; // Corresponde ao top: -35% do CSS
   let ticking = false;
