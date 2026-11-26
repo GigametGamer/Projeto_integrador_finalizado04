@@ -1,4 +1,5 @@
 lucide.createIcons();
+const caminhoAtual = window.location.pathname;
 
 const apiBaseUrl = ['5500', '5501'].includes(window.location.port)
   ? `${window.location.protocol}//${window.location.hostname}:3000/api`
@@ -207,7 +208,7 @@ verificarConexaoBackend();
       if (carrinho.length === 0) {
         alert('Seu carrinho está vazio!');
       } else {
-        alert('A finalização de compras ainda não está integrada. Seu carrinho foi mantido.');
+        window.location.href = "../../pages/pagamento/index.html";
       }
     });
 
